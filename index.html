@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anonymous Message Box</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(135deg,#6a11cb,#2575fc);
+}
+
+.container{
+    width:90%;
+    <max-width:500px;
+    margin:50px auto;
+    background:#fff;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.2)
+}
+
+h1{
+    text-align:center;
+}
+
+textarea{
+    width:100%;
+    height:150px;
+    padding:15px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    resize:none;
+    font-size:16px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    background:#2575fc;
+    color:white;
+    font-size:18px;
+    border-radius:10px;
+    margin-top:15px;
+    cursor:pointer;
+}
+
+button:hover{
+    <background:#1d63d8;
+}
+
+#status{
+    text-align:center;
+    margin-top:15px;
+    color:green;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>💌 Anonymous Message</h1>
+
+<p> Send me anything anonymously.☺️</p>
+
+<textarea id="message" placeholder="Type your message..."></textarea>
+
+<button onclick="sendMessage()">
+Send Anonymously
+</button>
+
+<p id="status"></p>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/10.12.2firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:"YOUR_API_KEY",
+
+authDomain:"YOUR_PROJECT.firebaseapp.com",
+
+projectId:"YOUR_PROJECT",
+
+storageBucket:"YOUR_PROJECT.appspot.com",
+
+messagingSenderId:"",
+
+appId:""
+
+};
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+window.sendMessage = async function(){
+
+const message=document.getElementById("message").value;
+
+if(message==""){
+alert("Write something");
+return;
+}
+
+await addDoc(collection(db,"messages"),{
+
+message:message,
+
+createdAt:serverTimestamp()
+
+});
+
+document.ggetElementById("message").value="";
+
+document.getElementyById("status").innerHTML="✅ Message Sent!";
+
+}
+
+</script>
+
+</body>
+</html>
